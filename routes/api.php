@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
 });
+
+Route::post('login', [\App\Http\Controllers\Api\CustomerController::class, 'login']);
+Route::post('register', [\App\Http\Controllers\Api\CustomerController::class, 'store']);
+Route::apiResource('products', \App\Http\Controllers\Api\ProductController::class);
