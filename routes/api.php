@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
 });
 
-Route::post('login', [\App\Http\Controllers\Api\CustomerController::class, 'login']);
-Route::post('register', [\App\Http\Controllers\Api\CustomerController::class, 'store']);
+Route::post('login', \App\Http\Controllers\Api\LoginCustomer::class);
+Route::post('register', \App\Http\Controllers\Api\RegisterCustomer::class);
+Route::get('verify-email/{customer}/{token}', \App\Http\Controllers\Api\VerifyEmail::class)->where('token', '.*');
 Route::apiResource('products', \App\Http\Controllers\Api\ProductController::class);
