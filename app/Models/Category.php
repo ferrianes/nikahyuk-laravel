@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Category extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class Product extends Model
      *
      * @var string
      */
-    protected $table = 'produk';
+    protected $table = 'kategori';
 
     /**
      * Indicates if the model should be timestamped.
@@ -24,10 +24,10 @@ class Product extends Model
     public $timestamps = false;
 
     /**
-     * Get the category for product.
+     * Get the products for the category.
      */
-    public function category()
+    public function products()
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasMany(Product::class);
     }
 }

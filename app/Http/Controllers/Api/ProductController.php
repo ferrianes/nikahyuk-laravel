@@ -20,7 +20,11 @@ class ProductController extends Controller
         // Jika ada limit
         $limit = $request->input('limit', 6);
 
-        $products = Product::simplePaginate($limit);
+        if ($request->has('category_id')) {
+            $products = Product::where('id_kategori', $request->category_id)->simplePaginate($limit);
+        } else {
+            $products = Product::simplePaginate($limit);
+        }
 
         return DataResource::collection($products);
     }
