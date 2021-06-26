@@ -21,9 +21,15 @@ class ProductController extends Controller
         $limit = $request->input('limit', 6);
 
         if ($request->has('category_id')) {
-            $products = Product::where('id_kategori', $request->category_id)->simplePaginate($limit);
+            $products = Product::with(['imagesProduct' => function ($query) {
+                $query->where('thumbnail', 1);
+            }, 'category'])
+                ->where('id_kategori', $request->category_id)
+                ->simplePaginate($limit);
         } else {
-            $products = Product::simplePaginate($limit);
+            $products = Product::with(['imagesProduct' => function ($query) {
+                $query->where('thumbnail', 1);
+            }, 'category'])->simplePaginate($limit);
         }
 
         return DataResource::collection($products);
@@ -48,7 +54,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return new DataResource($product);
+        return new DataResource($product->load(['imagesProduct', 'category']));
     }
 
     /**

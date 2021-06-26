@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class ImageProduct extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class Product extends Model
      *
      * @var string
      */
-    protected $table = 'produk';
+    protected $table = 'produk_gambar';
 
     /**
      * Indicates if the model should be timestamped.
@@ -24,18 +24,10 @@ class Product extends Model
     public $timestamps = false;
 
     /**
-     * Get the category for product.
+     * Get the product that owns the image.
      */
-    public function category()
+    public function product()
     {
-        return $this->belongsTo(Category::class, 'id_kategori');
-    }
-
-    /**
-     * Get the imageproduct for the product.
-     */
-    public function ImagesProduct()
-    {
-        return $this->hasMany(ImageProduct::class, 'produk_id');
+        return $this->belongsTo(Product::class);
     }
 }
