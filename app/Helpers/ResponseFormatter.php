@@ -13,23 +13,18 @@ class ResponseFormatter
      * @var array
      */
     protected static $response = [
-        'meta' => [
-            'code' => 200,
-            'status' => 'success',
-            'message' => null,
-        ],
+        'status' => 200,
         'data' => null,
     ];
 
     /**
      * Give success response.
      */
-    public static function success($data = null, $message = null)
+    public static function success($data = null)
     {
-        self::$response['meta']['message'] = $message;
         self::$response['data'] = $data;
 
-        return response()->json(self::$response, self::$response['meta']['code']);
+        return response()->json(self::$response, self::$response['status']);
     }
 
     /**
@@ -37,11 +32,9 @@ class ResponseFormatter
      */
     public static function error($data = null, $message = null, $code = 400)
     {
-        self::$response['meta']['status'] = 'error';
-        self::$response['meta']['code'] = $code;
-        self::$response['meta']['message'] = $message;
+        self::$response['status'] = $code;
         self::$response['data'] = $data;
 
-        return response()->json(self::$response, self::$response['meta']['code']);
+        return response()->json(self::$response, self::$response['status']);
     }
 }

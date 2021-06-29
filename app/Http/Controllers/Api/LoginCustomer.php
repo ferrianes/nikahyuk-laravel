@@ -13,7 +13,7 @@ class LoginCustomer extends Controller
      * Handle the incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Helpers\ResponseFormatter
+     * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request)
     {
@@ -28,20 +28,30 @@ class LoginCustomer extends Controller
         // Mengecek Credentials (login)
         $credentials = request(['email', 'password']);
         if (!auth()->attempt($credentials)) {
-            return ResponseFormatter::error([
-                'message' => 'Unauthorized'
-            ], 'Authentication Failed', 500);
+            return response()->json([
+                'message' => __('validation.current_password')
+            ], 400);
         }
 
-        // Jika hash tidak sesuai maka beri error
-        $customer = Customer::where('email', $request->email)->first();
+        // Get Customer
+        $customer = auth()->user();
+
+        // Cek Verifikasi Email
+        if (!$customer->is_active) {
+            return response()->json([
+                'message' => __('auth.not_verify')
+            ], 400);
+        }
 
         // Jika berhasil maka loginkan
         $token_result = $customer->createToken('auth_token')->plainTextToken;
-        return ResponseFormatter::success([
-            'access_token' => $token_result,
-            'token_type' => 'Bearer',
-            'customer' => $customer
-        ], 'Authenticated');
+
+        return response()->json([
+            'data' => [
+                'access_token' => $token_result,
+                'token_type' => 'Bearer',
+                'customer' => $customer
+            ]
+        ], 200);
     }
 }

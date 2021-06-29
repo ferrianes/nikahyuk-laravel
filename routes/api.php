@@ -14,10 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['accept', 'localization'])->group(function () {
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('logout', \App\Http\Controllers\Api\LogoutCustomer::class);
+    });
+
+    Route::post('login', \App\Http\Controllers\Api\LoginCustomer::class);
+    Route::post('register', \App\Http\Controllers\Api\RegisterCustomer::class);
+    Route::apiResource('products', \App\Http\Controllers\Api\ProductController::class);
 });
 
-Route::post('login', \App\Http\Controllers\Api\LoginCustomer::class);
-Route::post('register', \App\Http\Controllers\Api\RegisterCustomer::class);
 Route::get('verify-email/{customer}/{token}', \App\Http\Controllers\Api\VerifyEmail::class)->where('token', '.*');
-Route::apiResource('products', \App\Http\Controllers\Api\ProductController::class);
