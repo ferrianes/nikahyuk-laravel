@@ -67,4 +67,12 @@ class Customer extends Authenticatable
     {
         $this->notify(new \App\Notifications\EmailVerifyCustom($token));
     }
+
+    /**
+     * Get the carts for the customer.
+     */
+    public function carts()
+    {
+        return $this->hasMany(Cart::class, 'id_kustomer');
+    }
 }
