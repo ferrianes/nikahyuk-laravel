@@ -36,6 +36,8 @@ class AddToCart extends Controller
             'jam_booking' => date('H:i:s'),
         ]);
 
-        return new DataResource($cart);
+        return new DataResource($cart->load(['product.imagesProduct' => function ($query) {
+            $query->where('thumbnail', 1);
+        }, 'product.category']));
     }
 }

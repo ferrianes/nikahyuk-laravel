@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['accept', 'localization'])->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
+        Route::get('customer', \App\Http\Controllers\Api\ShowProfile::class);
+        Route::put('customer', \App\Http\Controllers\Api\UpdateProfile::class);
         Route::get('logout', \App\Http\Controllers\Api\LogoutCustomer::class);
         Route::post('carts/{id_produk}', \App\Http\Controllers\Api\AddToCart::class);
         Route::get('carts', \App\Http\Controllers\Api\ShowCart::class);

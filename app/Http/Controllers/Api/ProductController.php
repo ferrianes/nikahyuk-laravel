@@ -20,12 +20,14 @@ class ProductController extends Controller
         // Jika ada limit
         $limit = $request->input('limit', 6);
 
-        if ($request->has('category_id')) {
+        if ($request->has('category_id') && !$request->has('search')) {
             $products = Product::with(['imagesProduct' => function ($query) {
                 $query->where('thumbnail', 1);
             }, 'category'])
                 ->where('id_kategori', $request->category_id)
                 ->simplePaginate($limit);
+        } else if ($request->has('search') && !$request->has('category_id')) {
+            $products = Product::where('nama', 'like', "%$request->search%")->simplePaginate($limit);
         } else {
             $products = Product::with(['imagesProduct' => function ($query) {
                 $query->where('thumbnail', 1);
