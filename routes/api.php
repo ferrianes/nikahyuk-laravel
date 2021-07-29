@@ -22,6 +22,7 @@ Route::middleware(['accept', 'localization'])->group(function () {
         Route::post('carts/{id_produk}', \App\Http\Controllers\Api\AddToCart::class);
         Route::get('carts', \App\Http\Controllers\Api\ShowCart::class);
         Route::delete('carts/{id}', \App\Http\Controllers\Api\RemoveCartItem::class);
+        Route::get('carts/count', \App\Http\Controllers\Api\CountCart::class);
     });
 
     Route::post('login', \App\Http\Controllers\Api\LoginCustomer::class);
